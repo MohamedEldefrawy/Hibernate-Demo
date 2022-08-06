@@ -17,6 +17,24 @@ public class Department {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "deaprtment_id")
+    private List<Team> teams;
+
+    public Department(String name, List<Team> teams, List<Employee> employees) {
+        this.name = name;
+        this.teams = teams;
+        this.employees = employees;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
     public List<Employee> getEmployees() {
         return employees;
     }
