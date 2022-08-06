@@ -2,6 +2,7 @@ package com.example.hibernatedemo;
 
 import com.example.hibernatedemo.contracts.RepositoryInterface;
 import com.example.hibernatedemo.dto.Employee;
+import com.example.hibernatedemo.dto.EmployeeDetail;
 import com.example.hibernatedemo.hibernate.EmployeeRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +12,9 @@ public class HibernateDemoApplication {
 
     public static void main(String[] args) {
         RepositoryInterface<Employee> employeeRepository = new EmployeeRepository();
-        employeeRepository.create(new Employee("Ahmed"));
+        var employeeDetails = new EmployeeDetail();
+        employeeDetails.setCreditCard("ABC");
+        employeeRepository.create(new Employee("Dafro", employeeDetails));
         Employee selectedEmployee = employeeRepository.get(1);
         System.out.println(selectedEmployee.getId());
         System.out.println(selectedEmployee.getName());

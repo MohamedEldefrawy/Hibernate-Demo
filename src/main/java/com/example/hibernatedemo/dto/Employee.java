@@ -11,8 +11,8 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "employee_detail_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_details_id")
     private EmployeeDetail employeeDetail;
 
     public EmployeeDetail getEmployeeDetail() {
@@ -20,6 +20,11 @@ public class Employee {
     }
 
     public void setEmployeeDetail(EmployeeDetail employeeDetail) {
+        this.employeeDetail = employeeDetail;
+    }
+
+    public Employee(String name, EmployeeDetail employeeDetail) {
+        this.name = name;
         this.employeeDetail = employeeDetail;
     }
 
