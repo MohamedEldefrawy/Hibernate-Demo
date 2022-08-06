@@ -1,10 +1,10 @@
 package com.example.hibernatedemo.hibernate;
 
 import com.example.hibernatedemo.contracts.RepositoryInterface;
+import com.example.hibernatedemo.dto.Department;
 import com.example.hibernatedemo.dto.Employee;
 import com.example.hibernatedemo.dto.EmployeeDetail;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ public class EmployeeRepository implements RepositoryInterface<Employee> {
 
     @Override
     public void create(Employee entity) {
-        Session session = getSession(new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(EmployeeDetail.class).addAnnotatedClass(Employee.class).buildSessionFactory());
+        Session session = getSession();
         session.getTransaction();
 
         try {
@@ -31,13 +31,9 @@ public class EmployeeRepository implements RepositoryInterface<Employee> {
         }
     }
 
-    private static Session getSession(SessionFactory buildSessionFactory) {
-        return buildSessionFactory.getCurrentSession();
-    }
-
     @Override
     public Employee get(int id) {
-        Session session = getSession(new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(EmployeeDetail.class).addAnnotatedClass(Employee.class).buildSessionFactory());
+        Session session = getSession();
         try {
             session.beginTransaction();
             var selectedEmployee = session.get(Employee.class, id);
@@ -54,7 +50,7 @@ public class EmployeeRepository implements RepositoryInterface<Employee> {
 
     @Override
     public List<Employee> get() {
-        Session session = getSession(new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(EmployeeDetail.class).addAnnotatedClass(Employee.class).buildSessionFactory());
+        Session session = getSession();
         try {
             session.beginTransaction();
             var employees = session.createQuery("from Employee").list();
@@ -71,7 +67,7 @@ public class EmployeeRepository implements RepositoryInterface<Employee> {
 
     @Override
     public void update(int id, Employee entity) {
-        Session session = getSession(new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(EmployeeDetail.class).addAnnotatedClass(Employee.class).buildSessionFactory());
+        Session session = getSession();
         try {
             session.beginTransaction();
             var selectedEmployee = session.get(Employee.class, id);
@@ -87,7 +83,7 @@ public class EmployeeRepository implements RepositoryInterface<Employee> {
 
     @Override
     public void delete(int id) {
-        Session session = getSession(new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(EmployeeDetail.class).addAnnotatedClass(Employee.class).buildSessionFactory());
+        Session session = getSession();
         try {
             session.beginTransaction();
             var selectedEmployee = session.get(Employee.class, id);
@@ -99,5 +95,16 @@ public class EmployeeRepository implements RepositoryInterface<Employee> {
             e.printStackTrace();
             session.close();
         }
+    }
+
+
+    private static Session getSession() {
+        var sessionFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(EmployeeDetail.class)
+                .addAnnotatedClass(Employee.class)
+                .addAnnotatedClass(Department.class)
+                .buildSessionFactory();
+        return sessionFactory.getCurrentSession();
     }
 }

@@ -15,6 +15,24 @@ public class Employee {
     @JoinColumn(name = "employee_details_id")
     private EmployeeDetail employeeDetail;
 
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public Employee(String name, EmployeeDetail employeeDetail, Department department) {
+        this.name = name;
+        this.employeeDetail = employeeDetail;
+        this.department = department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public EmployeeDetail getEmployeeDetail() {
         return employeeDetail;
     }

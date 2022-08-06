@@ -11,6 +11,17 @@ public class EmployeeDetail {
     @Column(name = "credit_card")
     private String creditCard;
 
+    @OneToOne(mappedBy = "employeeDetail", cascade = CascadeType.ALL)
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public int getId() {
         return id;
     }
